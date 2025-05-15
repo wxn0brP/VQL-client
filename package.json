@@ -1,6 +1,6 @@
 {
     "name": "@wxn0brp/vql-client",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "author": "wxn0brP",
@@ -15,6 +15,9 @@
         "tsc-alias": "^1.8.10",
         "typescript": "^5.7.3"
     },
+    "files": [
+        "dist"
+    ],
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
