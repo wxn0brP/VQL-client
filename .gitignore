@@ -3,3 +3,4 @@ node_modules
 .suglite_history
 yarn.lock
 package-lock.json
+src/vql.ts

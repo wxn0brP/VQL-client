@@ -18,8 +18,10 @@ jobs:
     uses: wxn0brP/workflow-dist/.github/workflows/build-ts.yml@main
     with:
       scriptsHandling: "remove-all"
-      customCommands: "npm run minify"
       publishToNpm: true
+      customCommands: |
+        curl https://raw.githubusercontent.com/wxn0brP/VQL/refs/heads/types/vql.d.ts > src/vql.ts
+        npm run minify
     
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
