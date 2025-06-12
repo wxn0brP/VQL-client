@@ -9,13 +9,16 @@ export type VQLHooks = {
 
 let transport: VQLTransport = defaultFetchTransport;
 let hooks: VQLHooks = {};
+let defaultFetchUrl = "/VQL";
 
 export function initVQLClient(config: {
     transport?: VQLTransport,
-    hooks?: VQLHooks
+    hooks?: VQLHooks,
+    defaultFetchUrl?: string
 }) {
     if (config.transport) transport = config.transport;
     if (config.hooks) hooks = config.hooks;
+    if (config.defaultFetchUrl) defaultFetchUrl = config.defaultFetchUrl;
 }
 
 export async function fetchVQL<T = any>(query: VQLQuery): Promise<T> {
@@ -47,7 +50,7 @@ export function resetVQLClient() {
 }
 
 export async function defaultFetchTransport(query: VQLQuery): Promise<any> {
-    const res = await fetch("/VQL", {
+    const res = await fetch(defaultFetchUrl, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
