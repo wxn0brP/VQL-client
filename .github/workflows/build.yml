@@ -19,9 +19,8 @@ jobs:
     with:
       scriptsHandling: "remove-all"
       publishToNpm: true
-      customCommands: |
-        curl https://raw.githubusercontent.com/wxn0brP/VQL/refs/heads/types/vql.d.ts > src/vql.ts
-        npm run minify
+      preBuildCustomCommands: curl https://raw.githubusercontent.com/wxn0brP/VQL/refs/heads/types/vql.d.ts > src/vql.ts
+      customCommands: npm run minify
     
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
