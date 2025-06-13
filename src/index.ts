@@ -1,6 +1,6 @@
-import { VQLR } from "./vql";
+import { VQLR, VQLRef } from "./vql";
 
-export type VQLQuery = string | VQLR;
+export type VQLQuery = VQLR | string | { query: string } & VQLRef;
 export type VQLResult<T = any> = Promise<T>;
 export type VQLTransport = (query: VQLQuery) => VQLResult;
 export type VQLHooks = {
