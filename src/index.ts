@@ -1,12 +1,11 @@
-import { VQLR, VQLRef } from "./vql";
+import { VqlQueryRaw } from "./vql";
 
-export type VQLQuery = VQLR | string | { query: string } & VQLRef;
 export type VQLResult<T = any> = Promise<T>;
-export type VQLTransport = (query: VQLQuery) => VQLResult;
+export type VQLTransport = (query: VqlQueryRaw) => VQLResult;
 export type VQLHooks = {
-    onStart?: (query: VQLQuery) => void;
-    onEnd?: (query: VQLQuery, durationMs: number, result: any) => void;
-    onError?: (query: VQLQuery, error: unknown) => void;
+    onStart?: (query: VqlQueryRaw) => void;
+    onEnd?: (query: VqlQueryRaw, durationMs: number, result: any) => void;
+    onError?: (query: VqlQueryRaw, error: unknown) => void;
 };
 
 let transport: VQLTransport = defaultFetchTransport;
@@ -23,7 +22,7 @@ export function initVQLClient(config: {
     if (config.defaultFetchUrl) defaultFetchUrl = config.defaultFetchUrl;
 }
 
-export async function fetchVQL<T = any>(query: VQLQuery): Promise<T> {
+export async function fetchVQL<T = any>(query: VqlQueryRaw): Promise<T> {
     const start = Date.now();
     try {
         hooks.onStart?.(query);
@@ -52,7 +51,7 @@ export function resetVQLClient() {
     hooks = {};
 }
 
-export async function defaultFetchTransport(query: VQLQuery): Promise<any> {
+export async function defaultFetchTransport(query: VqlQueryRaw): Promise<any> {
     const res = await fetch(defaultFetchUrl, {
         method: "POST",
         headers: {
