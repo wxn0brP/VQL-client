@@ -39,7 +39,8 @@ export async function fetchVQL<T = any>(query: VQLQuery): Promise<T> {
             throw error;
         }
 
-        return res?.result ?? res;
+        if (res.result !== undefined) return res.result;
+        return res;
     } catch (e) {
         hooks.onError?.(query, e);
         throw e;
