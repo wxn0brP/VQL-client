@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/wxn0brP/VQL-client/compare/v0.0.7...v0.0.8) (2025-06-15)
+
+
+### Bug Fixes
+
+* types ([178156e](https://github.com/wxn0brP/VQL-client/commit/178156e046e9d30775cd7e18552f51566f46518d))
+
 ### [0.0.7](https://github.com/wxn0brP/VQL-client/compare/v0.0.6...v0.0.7) (2025-06-15)
 
 
