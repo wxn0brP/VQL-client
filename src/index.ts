@@ -3,9 +3,9 @@ import { VqlQueryRaw } from "./vql";
 export type VQLResult<T = any> = Promise<T>;
 export type VQLTransport = (query: VqlQueryRaw) => VQLResult;
 export type VQLHooks = {
-    onStart?: (query: VqlQueryRaw) => void;
-    onEnd?: (query: VqlQueryRaw, durationMs: number, result: any) => void;
-    onError?: (query: VqlQueryRaw, error: unknown) => void;
+    onStart?: (query: VqlQueryRaw, hookContext: any) => void;
+    onEnd?: (query: VqlQueryRaw, durationMs: number, result: any, hookContext: any) => void;
+    onError?: (query: VqlQueryRaw, error: unknown, result?: any, hookContext?: any) => void;
 };
 
 let transport: VQLTransport = defaultFetchTransport;
@@ -22,19 +22,19 @@ export function initVQLClient(config: {
     if (config.defaultFetchUrl) defaultFetchUrl = config.defaultFetchUrl;
 }
 
-export async function fetchVQL<T = any>(query: VqlQueryRaw): Promise<T> {
+export async function fetchVQL<T = any>(query: VqlQueryRaw, hookContext: any = {}): Promise<T> {
     const start = Date.now();
     try {
-        hooks.onStart?.(query);
+        hooks.onStart?.(query, hookContext);
 
         const res = await transport(query);
 
         const duration = Date.now() - start;
-        hooks.onEnd?.(query, duration, res);
+        hooks.onEnd?.(query, duration, res, hookContext);
 
         if (res?.err) {
             const error = new Error(res.err);
-            hooks.onError?.(query, error);
+            hooks.onError?.(query, error, res, hookContext);
             throw error;
         }
 
