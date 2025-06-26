@@ -41,7 +41,7 @@ export async function fetchVQL<T = any>(query: VqlQueryRaw, hookContext: any = {
         if (res.result !== undefined) return res.result;
         return res;
     } catch (e) {
-        hooks.onError?.(query, e);
+        hooks.onError?.(query, e, null, hookContext);
         throw e;
     }
 }
