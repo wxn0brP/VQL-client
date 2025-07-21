@@ -22,7 +22,7 @@ export function initVQLClient(config: {
     if (config.defaultFetchUrl) defaultFetchUrl = config.defaultFetchUrl;
 }
 
-export async function fetchVQL<T = any>(query: VqlQueryRaw, hookContext: any = {}): Promise<T> {
+export async function fetchVQL<T = any>(query: VqlQueryRaw<T>, hookContext: any = {}): Promise<T> {
     const start = Date.now();
     try {
         hooks.onStart?.(query, hookContext);
