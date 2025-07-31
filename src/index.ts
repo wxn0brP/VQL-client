@@ -2,27 +2,26 @@ import { VqlQueryRaw } from "./vql";
 
 export type VQLResult<T = any> = Promise<T>;
 export type VQLTransport = (query: VqlQueryRaw) => VQLResult;
-export type VQLHooks = {
+export interface VQLHooks {
     onStart?: (query: VqlQueryRaw, hookContext: any) => void;
     onEnd?: (query: VqlQueryRaw, durationMs: number, result: any, hookContext: any) => void;
     onError?: (query: VqlQueryRaw, error: unknown, result?: any, hookContext?: any) => void;
 };
 
-let transport: VQLTransport = defaultFetchTransport;
-let hooks: VQLHooks = {};
-let defaultFetchUrl = "/VQL";
-
-export function initVQLClient(config: {
+export interface Config {
     transport?: VQLTransport,
     hooks?: VQLHooks,
-    defaultFetchUrl?: string
-}) {
-    if (config.transport) transport = config.transport;
-    if (config.hooks) hooks = config.hooks;
-    if (config.defaultFetchUrl) defaultFetchUrl = config.defaultFetchUrl;
+    url?: string
+}
+
+export const VConfig: Config = {
+    transport: defTransport,
+    hooks: {},
+    url: "/VQL"
 }
 
 export async function fetchVQL<T = any>(query: VqlQueryRaw<T>, hookContext: any = {}): Promise<T> {
+    const { transport, hooks } = VConfig;
     const start = Date.now();
     try {
         hooks.onStart?.(query, hookContext);
@@ -46,13 +45,8 @@ export async function fetchVQL<T = any>(query: VqlQueryRaw<T>, hookContext: any 
     }
 }
 
-export function resetVQLClient() {
-    transport = defaultFetchTransport;
-    hooks = {};
-}
-
-export async function defaultFetchTransport(query: VqlQueryRaw): Promise<any> {
-    const res = await fetch(defaultFetchUrl, {
+export async function defTransport(query: VqlQueryRaw): Promise<any> {
+    const res = await fetch(VConfig.url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -68,8 +62,7 @@ export async function defaultFetchTransport(query: VqlQueryRaw): Promise<any> {
 if (typeof window !== "undefined") {
     (window as any).VQLClient = {
         fetchVQL,
-        initVQLClient,
-        resetVQLClient,
-        defaultFetchTransport
+        defTransport,
+        cfg: VConfig
     };
 }
