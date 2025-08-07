@@ -14,7 +14,8 @@
     "type": "module",
     "scripts": {
         "build": "tsc",
-        "minify": "node build.js"
+        "minify": "node build.js",
+        "get": "curl https://raw.githubusercontent.com/wxn0brP/VQL/refs/heads/types/vql.d.ts > src/vql.ts"
     },
     "devDependencies": {
         "esbuild": "^0.25.8",

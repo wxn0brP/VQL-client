@@ -1,11 +1,11 @@
-import { VqlQueryRaw } from "./vql";
+import { VQLUQ } from "./vql";
 
 export type VQLResult<T = any> = Promise<T>;
-export type VQLTransport = (query: VqlQueryRaw) => VQLResult;
+export type VQLTransport = (query: VQLUQ) => VQLResult;
 export interface VQLHooks {
-    onStart?: (query: VqlQueryRaw, hookContext: any) => void;
-    onEnd?: (query: VqlQueryRaw, durationMs: number, result: any, hookContext: any) => void;
-    onError?: (query: VqlQueryRaw, error: unknown, result?: any, hookContext?: any) => void;
+    onStart?: (query: VQLUQ, hookContext: any) => void;
+    onEnd?: (query: VQLUQ, durationMs: number, result: any, hookContext: any) => void;
+    onError?: (query: VQLUQ, error: unknown, result?: any, hookContext?: any) => void;
 };
 
 export interface Config {
@@ -20,7 +20,7 @@ export const VConfig: Config = {
     url: "/VQL"
 }
 
-export async function fetchVQL<T = any>(query: VqlQueryRaw<T>, hookContext: any = {}): Promise<T> {
+export async function fetchVQL<T = any>(query: VQLUQ<T>, hookContext: any = {}): Promise<T> {
     const { transport, hooks } = VConfig;
     const start = Date.now();
     try {
@@ -45,7 +45,7 @@ export async function fetchVQL<T = any>(query: VqlQueryRaw<T>, hookContext: any 
     }
 }
 
-export async function defTransport(query: VqlQueryRaw): Promise<any> {
+export async function defTransport(query: VQLUQ): Promise<any> {
     const res = await fetch(VConfig.url, {
         method: "POST",
         headers: {
