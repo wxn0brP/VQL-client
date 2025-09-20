@@ -20,11 +20,20 @@ export const VConfig: Config = {
     url: "/VQL"
 }
 
-export async function fetchVQL<T = any>(query: VQLUQ<T>, hookContext: any = {}): Promise<T> {
+export async function fetchVQL<T = any>(query: VQLUQ<T>, vars: any = {}, hookContext: any = {}): Promise<T> {
     const { transport, hooks } = VConfig;
     const start = Date.now();
     try {
+        hookContext = Object.assign({}, vars, hookContext);
         hooks.onStart?.(query, hookContext);
+
+        if (typeof query === "string" && Object.keys(vars).length) {
+            query = {
+                query: query,
+                // @ts-ignore
+                vars
+            };
+        }
 
         const res = await transport(query);
 
