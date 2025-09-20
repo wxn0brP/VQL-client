@@ -30,8 +30,7 @@ export async function fetchVQL<T = any>(query: VQLUQ<T>, vars: any = {}, hookCon
         if (typeof query === "string" && Object.keys(vars).length) {
             query = {
                 query: query,
-                // @ts-ignore
-                vars
+                var: vars
             };
         }
 
