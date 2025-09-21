@@ -9,9 +9,11 @@ export interface VQLHooks {
 };
 
 export interface Config {
-    transport?: VQLTransport,
-    hooks?: VQLHooks,
-    url?: string
+    transport?: VQLTransport;
+    hooks?: VQLHooks;
+    url?: string;
+    /** default transport body */
+    body?: Record<string, any>;
 }
 
 export const VConfig: Config = {
@@ -59,7 +61,7 @@ export async function defTransport(query: VQLUQ): Promise<any> {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ query })
+        body: JSON.stringify({ query, ...(VConfig.body || {}) })
     });
 
     if (!res.ok) throw new Error(`VQL request failed: ${res.status}`);
