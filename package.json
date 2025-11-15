@@ -1,0 +1,47 @@
+{
+  "name": "@wxn0brp/vql-client",
+  "version": "0.2.4",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "description": "VQL Client",
+  "homepage": "https://github.com/wxn0brP/VQL-client",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wxn0brP/VQL-client.git"
+  },
+  "keywords": [
+    "vql",
+    "valthera",
+    "database",
+    "orm",
+    "api",
+    "crud",
+    "nosql",
+    "query",
+    "db",
+    "query-language",
+    "client"
+  ],
+  "author": "wxn0brP",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "esbuild": "*",
+    "typescript": "*"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js",
+      "default": "./dist/*.js"
+    }
+  }
+}
