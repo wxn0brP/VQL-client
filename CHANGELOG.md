@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/wxn0brP/VQL-client/compare/v0.2.2...v0.2.3) (2025-11-15)
+
+
+### Features
+
+* update, rusalka ci, deps, bun ([c38e389](https://github.com/wxn0brP/VQL-client/commit/c38e389a4353e97768a077f1c7cfb7a5256f49b8))
+
 ### [0.2.2](https://github.com/wxn0brP/VQL-client/compare/v0.2.1...v0.2.2) (2025-09-22)
 
 
