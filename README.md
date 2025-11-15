@@ -4,12 +4,16 @@ Minimalistic, pluggable client for **VQL** query execution.
 
 Supports:
 
-- ✅ ESM (`import`)
-- ✅ CDN / `<script>` (`VQLClient`)
-- ✅ Fully typed with TypeScript
-- ✅ Custom transport layers and lifecycle hooks
+- ESM (`import`)
+- CDN / `<script>` (`VQLClient`)
+- Fully typed with TypeScript
+- Custom transport layers and lifecycle hooks
 
-## 🚀 Usage
+## DOCS
+
+[API Reference](https://wxn0brp.github.io/VQL-client/)
+
+## Usage
 
 ### ESM
 
@@ -28,9 +32,9 @@ const result = await fetchVQL("db1 user! s._id = xyz");
 </script>
 ```
 
-## 🧠 Usage
+## Usage
 
-### `fetchVQL<T = any>(query: string | object): Promise<T>`
+### `fetchVQL<T = any>(query: string | object, vars?: Object, hookContext?: Object): Promise<T>`
 
 Executes a VQL query and returns the result (unwrapped from `{ result }`, unless an error is present).
 
@@ -49,13 +53,13 @@ VConfig.transport = async (query) => {
   }).then(res => res.json());
 }
 VConfig.hooks = {
-  onStart: (q) => console.log("VQL start", q),
-  onEnd: (q, ms, r) => console.log("VQL end", ms + "ms", r),
-  onError: (q, e) => console.error("VQL error", e)
+  onStart: (query, ctx) => console.log("VQL start", query),
+  onEnd: (q, time, res, ctx) => console.log("VQL end", time + "ms", res),
+  onError: (q, e, ctx) => console.error("VQL error", e)
 }
 ```
 
-## ✈️ Default Transport
+## Default Transport
 
 ```ts
 defTransport(query): Promise<any>
@@ -78,15 +82,10 @@ Returns:
 }
 ```
 
-## 📁 Output Files
-
-```
-dist/
-├── index.js               # ESM build (import)
-├── index.d.ts             # TypeScript types
-├── vql-client.min.js      # Global (CDN, window.VQLClient)
-```
-
-## 📜 License
+## License
 
 MIT wxn0brP
+
+## Contributing
+
+Contributions are welcome!
