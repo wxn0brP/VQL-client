@@ -13,13 +13,12 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "build": "tsc",
-        "minify": "node build.js",
+        "build": "tsc && bun run build.js",
         "get": "curl https://raw.githubusercontent.com/wxn0brP/VQL/refs/heads/types/vql.d.ts > src/vql.ts"
     },
     "devDependencies": {
-        "esbuild": "^0.25.8",
-        "typescript": "^5.8.3"
+        "esbuild": "*",
+        "typescript": "*"
     },
     "files": [
         "dist"
