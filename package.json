@@ -9,6 +9,19 @@
         "type": "git",
         "url": "https://github.com/wxn0brP/VQL-client.git"
     },
+    "keywords": [
+        "vql",
+        "valthera",
+        "database",
+        "orm",
+        "api",
+        "crud",
+        "nosql",
+        "query",
+        "db",
+        "query-language",
+        "client"
+    ],
     "author": "wxn0brP",
     "license": "MIT",
     "type": "module",
