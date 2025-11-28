@@ -1,7 +1,7 @@
 import { VQLUQ } from "./vql";
 
 export type VQLResult<T = any> = Promise<T>;
-export type VQLTransport = (query: VQLUQ) => VQLResult;
+export type VQLTransport = (query: VQLUQ, fetchOptions?: FetchOptions) => VQLResult;
 export interface VQLHooks {
     onStart?: (query: VQLUQ, hookContext: any) => void;
     onEnd?: (query: VQLUQ, durationMs: number, result: any, hookContext: any) => void;
@@ -10,25 +10,35 @@ export interface VQLHooks {
 
 export interface Config {
     transport?: VQLTransport;
+    fetchImplementation: typeof fetch;
     hooks?: VQLHooks;
     url?: string;
     /** default transport body */
     body?: Record<string, any>;
     /** default transport headers */
     headers?: Record<string, any>;
+    /** default transport context */
+    hookContext?: any;
+}
+
+export interface FetchOptions {
+    signal?: AbortSignal;
+    headers?: Record<string, any>;
+    body?: Record<string, any>;
 }
 
 export const VConfig: Config = {
     transport: defTransport,
+    fetchImplementation: fetch,
     hooks: {},
     url: "/VQL"
 }
 
-export async function fetchVQL<T = any>(query: VQLUQ<T>, vars: any = {}, hookContext: any = {}): Promise<T> {
+export async function fetchVQL<T = any>(query: VQLUQ<T>, vars: any = {}, hookContext: any = {}, fetchOptions: FetchOptions = {}): Promise<T> {
     const { transport, hooks } = VConfig;
     const start = Date.now();
     try {
-        hookContext = Object.assign({}, vars, hookContext);
+        hookContext = Object.assign({}, VConfig.hookContext, vars, hookContext);
         hooks.onStart?.(query, hookContext);
 
         if (typeof query === "string" && Object.keys(vars).length) {
@@ -38,7 +48,7 @@ export async function fetchVQL<T = any>(query: VQLUQ<T>, vars: any = {}, hookCon
             };
         }
 
-        const res = await transport(query);
+        const res = await transport(query, fetchOptions);
 
         const duration = Date.now() - start;
         hooks.onEnd?.(query, duration, res, hookContext);
@@ -57,21 +67,33 @@ export async function fetchVQL<T = any>(query: VQLUQ<T>, vars: any = {}, hookCon
     }
 }
 
-export async function defTransport(query: VQLUQ): Promise<any> {
-    const defaultBody = VConfig.body || {};
-    const defaultHeaders = VConfig.headers || {};
-
-    const res = await fetch(VConfig.url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            ...defaultHeaders
+export async function defTransport(query: VQLUQ, fetchOptions?: FetchOptions): Promise<any> {
+    const headers = Object.assign(
+        {
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            ...defaultBody,
+        VConfig.headers,
+        fetchOptions.headers
+    )
+
+    const body = Object.assign(
+        {},
+        VConfig.body,
+        fetchOptions.body,
+        {
             query
-        })
-    });
+        }
+    )
+
+    const queryConfig: RequestInit = {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body)
+    }
+
+    if (fetchOptions.signal) queryConfig.signal = fetchOptions.signal;
+
+    const res = await VConfig.fetchImplementation(VConfig.url, queryConfig);
 
     if (!res.ok) throw new Error(`VQL request failed: ${res.status}`);
     return await res.json();
