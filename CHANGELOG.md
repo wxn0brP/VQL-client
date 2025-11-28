@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.5](https://github.com/wxn0brP/VQL-client/compare/v0.2.4...v0.2.5) (2025-11-28)
+
+
+### Features
+
+* custom headers ([0850a49](https://github.com/wxn0brP/VQL-client/commit/0850a498289f794d3acb01e93b904e28757d10ce))
+* improve defTransport ([62b704d](https://github.com/wxn0brP/VQL-client/commit/62b704d2798c06045bf9576200c29698d23120cc))
+
 ### [0.2.4](https://github.com/wxn0brP/VQL-client/compare/v0.2.3...v0.2.4) (2025-11-15)
 
 ### [0.2.3](https://github.com/wxn0brP/VQL-client/compare/v0.2.2...v0.2.3) (2025-11-15)
