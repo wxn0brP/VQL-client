@@ -14,6 +14,8 @@ export interface Config {
     url?: string;
     /** default transport body */
     body?: Record<string, any>;
+    /** default transport headers */
+    headers?: Record<string, any>;
 }
 
 export const VConfig: Config = {
@@ -56,12 +58,19 @@ export async function fetchVQL<T = any>(query: VQLUQ<T>, vars: any = {}, hookCon
 }
 
 export async function defTransport(query: VQLUQ): Promise<any> {
+    const defaultBody = VConfig.body || {};
+    const defaultHeaders = VConfig.headers || {};
+
     const res = await fetch(VConfig.url, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            ...defaultHeaders
         },
-        body: JSON.stringify({ query, ...(VConfig.body || {}) })
+        body: JSON.stringify({
+            ...defaultBody,
+            query
+        })
     });
 
     if (!res.ok) throw new Error(`VQL request failed: ${res.status}`);
