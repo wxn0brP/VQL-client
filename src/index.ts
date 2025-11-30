@@ -99,11 +99,23 @@ export async function defTransport(query: VQLUQ, fetchOptions?: FetchOptions): P
     return await res.json();
 }
 
+export const V = async <T = any>(
+    strings: TemplateStringsArray,
+    ...values: any[]
+): Promise<T> => {
+    const query = strings
+        .map((str, i) => str.trim() + (values[i] !== undefined ? values[i] : ""))
+        .join(" ");
+
+    return fetchVQL<T>(query);
+};
+
 // Export global for CDN use
 if (typeof window !== "undefined") {
     (window as any).VQLClient = {
         fetchVQL,
         defTransport,
+        VQL: V,
         cfg: VConfig
     };
 }
