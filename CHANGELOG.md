@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.6](https://github.com/wxn0brP/VQL-client/compare/v0.2.5...v0.2.6) (2025-12-04)
+
+
+### Features
+
+* V`query` ([ede1104](https://github.com/wxn0brP/VQL-client/commit/ede110437d1b500dd4b175cb1a60d4d59d2ee49e))
+
+
+### Bug Fixes
+
+* fetch ([8f3e16f](https://github.com/wxn0brP/VQL-client/commit/8f3e16f62e7f2438289bd4e0b885e5946ec57f58))
+
 ### [0.2.5](https://github.com/wxn0brP/VQL-client/compare/v0.2.4...v0.2.5) (2025-11-28)
 
 
