@@ -29,7 +29,7 @@ export interface FetchOptions {
 
 export const VConfig: Config = {
     transport: defTransport,
-    fetchImplementation: fetch,
+    fetchImplementation: (input, init) => fetch(input, init),
     hooks: {},
     url: "/VQL"
 }
