@@ -30,8 +30,8 @@
         "get": "curl https://raw.githubusercontent.com/wxn0brP/VQL/refs/heads/types/vql.d.ts > src/vql.ts"
     },
     "devDependencies": {
-        "esbuild": "*",
-        "typescript": "*"
+        "esbuild": "^0.28",
+        "typescript": "^6"
     },
     "files": [
         "dist"
