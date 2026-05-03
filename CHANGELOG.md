@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.12](https://github.com/wxn0brP/VQL-client/compare/v0.2.11...v0.2.12) (2026-05-03)
+
 ### [0.2.11](https://github.com/wxn0brP/VQL-client/compare/v0.2.10...v0.2.11) (2026-04-20)
 
 ### [0.2.10](https://github.com/wxn0brP/VQL-client/compare/v0.2.9...v0.2.10) (2026-04-15)
