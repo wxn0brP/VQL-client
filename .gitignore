@@ -6,3 +6,4 @@ package-lock.json
 bun.lock
 src/vql.ts
 src/test.ts
+.vscode
