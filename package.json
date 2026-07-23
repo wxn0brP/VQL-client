@@ -30,8 +30,9 @@
         "get": "curl https://raw.githubusercontent.com/wxn0brP/VQL/refs/heads/types/vql.d.ts > src/vql.ts"
     },
     "devDependencies": {
+        "@wxn0brp/biome": "*",
         "esbuild": "^0.28",
-        "typescript": "^6"
+        "typescript": "^7"
     },
     "files": [
         "dist"
