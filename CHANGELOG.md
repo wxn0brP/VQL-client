@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.14](https://github.com/wxn0brP/VQL-client/compare/v0.2.13...v0.2.14) (2026-10-11)
+
+
+### Features
+
+* bump deps & add biome & fix fetchImplementation ([15df388](https://github.com/wxn0brP/VQL-client/commit/15df3880a1df488a143fdc835f6f11c31faeb9cd))
+
 ### [0.2.13](https://github.com/wxn0brP/VQL-client/compare/v0.2.12...v0.2.13) (2026-05-17)
 
 ### [0.2.12](https://github.com/wxn0brP/VQL-client/compare/v0.2.11...v0.2.12) (2026-05-03)
