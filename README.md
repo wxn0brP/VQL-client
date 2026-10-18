@@ -42,6 +42,43 @@ const result = await fetchVQL("db1 user! s._id = xyz");
 
 Executes a VQL query and returns the result (unwrapped from `{ result }`, unless an error is present).
 
+On error, `fetchVQL` throws a `VQLError` carrying the structured payload from the VQL server.
+
+```ts
+import { fetchVQL, VQLError, VQLErrorCodes } from "@wxn0brp/vql-client";
+
+try {
+	await fetchVQL("db1 user! s._id = xyz");
+} catch (e) {
+	if (e instanceof VQLError) {
+		console.log(e.code);        // "VQL_DB_NOT_FOUND" (typed VQLCode)
+		console.log(e.statusCode);  // HTTP status, e.g. 400
+		console.log(e.suggestion);  // hint from the server
+		console.log(e.context);     // structured context, e.g. { db: "db1" }
+		console.log(e.message);     // human-readable message
+
+		switch (e.code) {
+			case VQLErrorCodes.DB_NOT_FOUND:
+				// fatal, do not retry
+				break;
+			case VQLErrorCodes.PERMISSION_DENIED:
+				// redirect to login
+				break;
+		}
+	}
+}
+```
+
+There are also guards for ergonomic narrowing (`isVQLError`, `isVQLErrorCode`):
+
+```ts
+import { isVQLErrorCode, VQLErrorCodes } from "@wxn0brp/vql-client";
+
+if (isVQLErrorCode(e, VQLErrorCodes.PERMISSION_DENIED)) {
+	// e is narrowed to VQLError with code "VQL_PERMISSION_DENIED"
+}
+```
+
 ### `VConfig`
 
 Customize client behavior.

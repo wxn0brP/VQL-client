@@ -1,4 +1,5 @@
 import { VQLUQ } from "./vql";
+import { VQLError, VQLErrorCodes, isVQLError, isVQLErrorCode } from "./error";
 
 export type VQLResult<T = any> = Promise<T>;
 export type VQLTransport = (
@@ -76,7 +77,7 @@ export async function fetchVQL<T = any>(
 		hooks.onEnd?.(query, duration, res, hookContext);
 
 		if (res?.err) {
-			const error = new Error(res.err);
+			const error = new VQLError(res);
 			hooks.onError?.(query, error, res, hookContext);
 			throw error;
 		}
@@ -115,8 +116,16 @@ export async function defTransport(
 
 	const res = await VConfig.fetchImplementation(VConfig.url, queryConfig);
 
-	if (!res.ok) throw new Error(`VQL request failed: ${res.status}`);
-	return await res.json();
+	const data = await res.json().catch(() => null);
+	if (data?.err) throw new VQLError(data);
+
+	if (!res.ok)
+		throw new VQLError({
+			msg: `VQL request failed: ${res.status}`,
+			c: res.status,
+		});
+
+	return data;
 }
 
 export const V = async <T = any>(
@@ -130,6 +139,8 @@ export const V = async <T = any>(
 	return fetchVQL<T>(query);
 };
 
+export * from "./error";
+
 // Export global for CDN use
 if (typeof window !== "undefined") {
 	(window as any).VQLClient = {
@@ -137,5 +148,9 @@ if (typeof window !== "undefined") {
 		defTransport,
 		VQL: V,
 		cfg: VConfig,
+		VQLError,
+		VQLErrorCodes,
+		isVQLError,
+		isVQLErrorCode,
 	};
 }
