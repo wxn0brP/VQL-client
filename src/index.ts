@@ -60,6 +60,7 @@ export async function fetchVQL<T = any>(
 ): Promise<T> {
 	const { transport, hooks } = VConfig;
 	const start = Date.now();
+	let reported = false;
 	try {
 		hookContext = Object.assign({}, VConfig.hookContext, vars, hookContext);
 		hooks.onStart?.(query, hookContext);
@@ -78,6 +79,7 @@ export async function fetchVQL<T = any>(
 
 		if (res?.err) {
 			const error = new VQLError(res);
+			reported = true;
 			hooks.onError?.(query, error, res, hookContext);
 			throw error;
 		}
@@ -85,14 +87,14 @@ export async function fetchVQL<T = any>(
 		if (res.result !== undefined) return res.result;
 		return res;
 	} catch (e) {
-		hooks.onError?.(query, e, null, hookContext);
+		if (!reported) hooks.onError?.(query, e, null, hookContext);
 		throw e;
 	}
 }
 
 export async function defTransport(
 	query: VQLUQ,
-	fetchOptions?: FetchOptions,
+	fetchOptions: FetchOptions = {},
 ): Promise<any> {
 	const headers = Object.assign(
 		{
